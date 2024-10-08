@@ -10,8 +10,8 @@ import os
 import random
 import time
 
-from XdmaSpiController import SpiController
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaSpiController import SpiController
+from xdma.XdmaWindowsDeviceFile import *
 
 
 class Hmc7044Driver(SpiController):
@@ -164,15 +164,15 @@ class Hmc7044Driver(SpiController):
         self.set_gpo(3, "pll 1 clock status")
         self.set_gpo(4, "lock")
         # 设置输出通道,包括分频系数,output buffers
-        self.set_output_channel(2, True, 300, "LVPECL", 100)  # -> debug, 10MHz
-        self.set_output_channel(3, True, 12 * 16, "LVPECL", 100)  # -> debug, 15.625MHz
+        # self.set_output_channel(2, True, 300, "LVPECL", 100)  # -> debug, 10MHz
+        # self.set_output_channel(3, True, 12 * 16, "LVPECL", 100)  # -> debug, 15.625MHz
 
-        self.set_output_channel(4, True, 3, "LVPECL", 100)  # -> ADC, 1000MHz, sampling
-        self.set_output_channel(5, False, 12 * 16, "LVDS", 0)  # -> ADC, 15.625MHz,
+        self.set_output_channel(4, True, 3, "LVPECL", 100)  # -> ADC, 1000MHz, DCLK
+        self.set_output_channel(5, False, 12 * 16, "LVDS", 0)  # -> ADC, 15.625MHz, SYSREF clock
 
         self.set_output_channel(0, True, 12, "LVDS", 100)  # -> FPGA, 250MHz, MGT(ref) clock
         self.set_output_channel(6, True, 12 * 16, "LVDS", 100)  # -> FPGA, 15.625MHz, SYSREF clock
-        # self.set_output_channel(7, False, 12, "LVDS", 0)  # -> FPGA, 250MHz, core clock # unused in our clocking scheme
+        self.set_output_channel(7, False, 12, "LVDS", 0)  # -> FPGA, 250MHz, core clock # unused in our clocking scheme
 
         time.sleep(0.1)
         # 3. restart dividers/FSMs

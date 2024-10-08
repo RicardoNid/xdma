@@ -8,7 +8,7 @@
 
 import os.path
 
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaWindowsDeviceFile import *
 
 
 class XdmaWindowsDriver:

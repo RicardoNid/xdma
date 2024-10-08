@@ -6,7 +6,7 @@
 # @Software: PyCharm 
 # @Comment :
 
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaWindowsDeviceFile import *
 
 
 class Jesd204Driver(XdmaWindowsDeviceFile):

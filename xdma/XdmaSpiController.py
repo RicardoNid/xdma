@@ -7,7 +7,7 @@
 # @Comment :
 from abc import abstractmethod
 
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaWindowsDeviceFile import *
 
 
 class SpiController(XdmaWindowsDeviceFile):

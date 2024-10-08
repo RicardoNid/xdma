@@ -6,11 +6,9 @@
 # @Software: PyCharm 
 # @Comment :
 
-import time
 from dataclasses import dataclass
 
-from XdmaWindowsDeviceFile import *
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaWindowsDeviceFile import *
 
 DESCRIPTOR_SIZE = 32
 DESCRIPTOR_GAP = 64
@@ -130,14 +128,6 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
     def is_sg_enabled(self):
         return self.read_register_field(self.S2MM_DMASR, 3, 1) == 1 or self.read_register_field(self.MM2S_DMASR, 3, 1) == 1
 
-    def show_info(self):
-        print("\nAXI DMA info:")
-        print(f"\ts2mm enabled: {self.is_s2mm_enabled()}")
-        print(f"\tm2ss_enabled: {self.is_m2ss_enabled()}")
-        print(f"\tusing Scatter Gather: {self.is_sg_enabled()}")
-        self.show_s2mm_info()
-        self.show_mm2s_info()
-
     def show_channel_info(self, base_address: int = 0):
         def get_control(bit: int):
             return self.read_register_field(base_address, bit, 1) == 1
@@ -159,6 +149,14 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
     def show_mm2s_info(self):
         print(f"\nMM2S channel info:")
         self.show_channel_info(self.MM2S_DMACR)
+
+    def show_info(self):
+        print("\nAXI DMA info:")
+        print(f"\ts2mm enabled: {self.is_s2mm_enabled()}")
+        print(f"\tm2ss_enabled: {self.is_m2ss_enabled()}")
+        print(f"\tusing Scatter Gather: {self.is_sg_enabled()}")
+        self.show_s2mm_info()
+        self.show_mm2s_info()
 
     def reset(self):
         if self.is_m2ss_enabled():
@@ -210,5 +208,5 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
     def do_direct_mm2s_operation(self, addr: int, length: int):
         pass
 
-    def do_sg_m2ss_operation(self, bd_start, bd_end, cyclic: bool = False):
+    def do_sg_mm2s_operation(self, bd_start, bd_end, cyclic: bool = False):
         pass

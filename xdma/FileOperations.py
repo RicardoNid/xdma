@@ -10,7 +10,6 @@ import ctypes
 import os.path
 
 import numpy as np
-from Register32 import Register32
 
 ####################
 # C function parameters

@@ -8,8 +8,8 @@
 
 import time
 
-from XdmaSpiController import SpiController
-from XdmaWindowsDeviceFile import *
+from xdma.XdmaSpiController import SpiController
+from xdma.XdmaWindowsDeviceFile import *
 import random
 
 

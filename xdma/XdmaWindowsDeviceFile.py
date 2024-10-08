@@ -10,7 +10,8 @@ import threading
 from threading import Thread
 import time
 
-from FileOperations import *
+from xdma.FileOperations import *
+from xdma.Register32 import Register32
 
 
 ####################
@@ -88,19 +89,19 @@ class XdmaWindowsDeviceFile:
             pass  # for stream read/write
 
     def write(self, addr: int, data: np.ndarray):
-        if self.read_exists():
-            self.seek(handle=self.write_handle, addr=addr)
+        if self.write_exists():
+            if addr >= 0:
+                self.seek(handle=self.write_handle, addr=addr)
             bytes_write = write_to_handle(self.write_handle, data, data.nbytes)
-            # self.seek(handle=self.write_handle, addr=0)
             return bytes_write
         else:
             raise FileNotFoundError(f'{self.write_path} not found.')
 
     def read(self, addr: int, buffer: np.ndarray):
-        if self.write_exists():
-            self.seek(handle=self.read_handle, addr=addr)
+        if self.read_exists():
+            if addr >= 0:
+                self.seek(handle=self.read_handle, addr=addr)
             bytes_read = read_from_handle(self.read_handle, buffer, buffer.nbytes)
-            # self.seek(handle=self.read_handle, addr=0)
             return bytes_read
         else:
             raise FileNotFoundError(f'{self.read_path} not found.')
@@ -132,6 +133,7 @@ class XdmaWindowsDeviceFile:
     def _update_field(reg_value: np.uint32, start: int, length: int, field_value: np.uint32) -> np.uint32:
         end = length + start
         mask = ((1 << (end - start)) - 1) << start
+        mask = np.uint32(mask)
         reg_value &= ~mask  # 将需要修改的部分置0
         field_value = (field_value << start) & mask
         return reg_value | field_value

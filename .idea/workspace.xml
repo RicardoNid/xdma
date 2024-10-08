@@ -5,25 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/xdma.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Ad9695Driver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AxiDmaDriver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FileOperations.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Hmc7044Driver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Jesd204Driver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Register32.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XdmaSpiController.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XdmaWindowsDeviceFile.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XdmaWindowsDriver.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xdma_utils.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xdma/Jesd204CDriver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/Ad9695Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Ad9695Driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/AxiDmaDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/AxiDmaDriver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/FileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/FileOperations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/Jesd204Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Jesd204Driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaSpiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaSpiController.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,10 +48,11 @@
     &quot;Python.XdmaWindowsDeviceFile.executor&quot;: &quot;Run&quot;,
     &quot;Python.XdmaWindowsDeviceFileNew.executor&quot;: &quot;Run&quot;,
     &quot;Python.XdmaWindowsDriver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.darft (1).executor&quot;: &quot;Run&quot;,
     &quot;Python.darft.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DAS/PycharmProjects/xdma&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/DAS/PycharmProjects/xdma/xdma&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -72,7 +64,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\DAS\PycharmProjects\xdma\xdma" />
       <recent name="C:\Users\DAS\PycharmProjects\xdma" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\DAS\PycharmProjects\xdma\xdma" />
     </key>
   </component>
   <component name="RunManager" selected="Python.darft (1)">
@@ -275,7 +271,9 @@
       <workItem from="1728268703494" duration="97000" />
       <workItem from="1728297880897" duration="1343000" />
       <workItem from="1728310038587" duration="1265000" />
-      <workItem from="1728324500472" duration="2289000" />
+      <workItem from="1728324500472" duration="3063000" />
+      <workItem from="1728338965742" duration="9245000" />
+      <workItem from="1728349110812" duration="1953000" />
     </task>
     <servers />
   </component>
@@ -289,6 +287,7 @@
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFileNew.coverage" NAME="XdmaWindowsDeviceFileNew Coverage Results" MODIFIED="1728258633298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1728185892567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1728260633622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/xdma$darft__1_.coverage" NAME="darft (1) Coverage Results" MODIFIED="1728349222499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$Ad9695Driver.coverage" NAME="Ad9695Driver Coverage Results" MODIFIED="1727837796020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
