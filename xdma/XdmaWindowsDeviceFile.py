@@ -38,11 +38,12 @@ class XdmaWindowsDeviceFile:
         self.max_address = self.base_address + capacity
 
     def __enter__(self):
-        self.open()
+        # self.open()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
+        # self.close()
+        pass
 
     def read_exists(self):
         return self.read_handle != INVALID_HANDLE_VALUE
@@ -76,8 +77,10 @@ class XdmaWindowsDeviceFile:
     def close(self):
         if self.read_exists():
             CloseHandle(self.read_handle)
+            self.read_handle = INVALID_HANDLE_VALUE
         if self.write_exists() and self.read_path != self.write_path:
             CloseHandle(self.write_handle)
+            self.write_handle = INVALID_HANDLE_VALUE
 
     def seek(self, handle: int, addr: int):
         if addr > 0:
@@ -89,19 +92,23 @@ class XdmaWindowsDeviceFile:
             pass  # for stream read/write
 
     def write(self, addr: int, data: np.ndarray):
+        self.open()
         if self.write_exists():
             if addr >= 0:
                 self.seek(handle=self.write_handle, addr=addr)
             bytes_write = write_to_handle(self.write_handle, data, data.nbytes)
+            self.close()
             return bytes_write
         else:
             raise FileNotFoundError(f'{self.write_path} not found.')
 
     def read(self, addr: int, buffer: np.ndarray):
+        self.open()
         if self.read_exists():
             if addr >= 0:
                 self.seek(handle=self.read_handle, addr=addr)
             bytes_read = read_from_handle(self.read_handle, buffer, buffer.nbytes)
+            self.close()
             return bytes_read
         else:
             raise FileNotFoundError(f'{self.read_path} not found.')
@@ -141,7 +148,7 @@ class XdmaWindowsDeviceFile:
     def read_register_field(self, addr: int, start: int, length: int) -> np.uint32:
         return get_bits(self._read_register(addr), start, length)
 
-    def write_register_field(self, addr: int, start: int, length: int, value: np.uint32, strict: bool = False):
+    def write_register_field(self, addr: int, start: int, length: int, value: np.uint32, strict: bool = True):
         current_value = self._read_register(addr)
         new_value = self._update_field(current_value, start, length, value)
         self._write_register(addr, new_value)

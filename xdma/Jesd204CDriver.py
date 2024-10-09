@@ -5,6 +5,8 @@
 # @File    : Jesd204Device.py
 # @Software: PyCharm 
 # @Comment :
+from email.policy import strict
+
 from numpy.distutils.command.config import config
 from win32comext.propsys.propsys import PROPVARIANTType
 
@@ -27,7 +29,8 @@ class Jesd204_ResetStatus(Register32):
     address = 0x0020
     field_widths = [1, 1, 2, 1, 1, 1, 1, 8, 8, 8]
 
-    def __init__(self, reset=0, reset_type=0, external_reset_state=0, register_reset_state=0, gt_powergood_busy=0, gt_reset_busy=0, gt_pma_reset_busy=0,
+    def __init__(self, reset=0, reset_type=0, external_reset_state=0, register_reset_state=0, gt_powergood_busy=0,
+                 gt_reset_busy=0, gt_pma_reset_busy=0,
                  gt_mst_reset_busy=0):
         self.reset = reset
         self.reset_type = reset_type
@@ -89,9 +92,9 @@ class Jesd204CDriver(XdmaWindowsDeviceFile):
     # def exists(self):
 
     def soft_reset(self):
-        self.write_register_field(self.RESET, 1, 1, 0) # set reset type
-        self.write_register_field(self.RESET, 0, 1, 1)
-        self.write_register_field(self.RESET, 0, 1, 0) # release
+        self.write_register_field(self.RESET, 1, 1, 0)  # set reset type
+        self.write_register_field(self.RESET, 0, 1, 1, strict=False)
+        self.write_register_field(self.RESET, 0, 1, 0, strict=False)  # release
         time.sleep(1.0)
         # assert not self.check_register_bit(self.RESET, 0), "reset in progress"
 
@@ -113,7 +116,7 @@ class Jesd204CDriver(XdmaWindowsDeviceFile):
         print(f"\tfec: {'64B66B' if (config_ip.is_64b66b == 1) else '8B10B'}")
         print(f"\tfec included: {config_ip.fec_included == 1}")
         # reset status
-        print(f"\n\treset type: {'include PLL' if(status_reset.reset_type == 0) else 'datapath only'}")
+        print(f"\n\treset type: {'include PLL' if (status_reset.reset_type == 0) else 'datapath only'}")
         print(f"\treset in progress: {status_reset.reset == 1}")
         print(f"\ttx/rx_core_reset asserted: {status_reset.external_reset_state == 1}")
         print(f"\ttx/rx_reset asserted: {status_reset.register_reset_state == 1}")
