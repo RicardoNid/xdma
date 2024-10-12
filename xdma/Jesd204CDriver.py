@@ -92,7 +92,7 @@ class Jesd204CDriver(XdmaWindowsDeviceFile):
     # def exists(self):
 
     def soft_reset(self):
-        self.write_register_field(self.RESET, 1, 1, 0)  # set reset type
+        self.write_register_field(self.RESET, 1, 1, 0, strict=False)  # set reset type
         self.write_register_field(self.RESET, 0, 1, 1, strict=False)
         self.write_register_field(self.RESET, 0, 1, 0, strict=False)  # release
         time.sleep(1.0)
@@ -158,13 +158,12 @@ class Jesd204CDriver(XdmaWindowsDeviceFile):
                   f"\n\t\tLane is currently receiving K28.5's (BC alignment characters): {is_bit_set(debug_status, 0)}")
 
     def init_for_das(self):
+        # set link parameters
         config = Jesd204_8B10BConfig(K=32, F=1, scrambling=1)
         self.write_register32(config)
-        self.soft_reset()
-
-        # self.write_register_field(self.RESET, 16, 1, 0)  # enable watchdog, reset register is self-clearing
-        # self.write_register_field(self.ILA_SUPPORT, 0, 1, 1, strict=True)
-        # self.write_register_field(self.SCRAMBLING, 0, 1, 1, strict=True)
-        # self.write_register_field(self.LANE_IN_USE, 0, 8, 0xf, strict=True)
-        # self.write_register_field(self.SUBCLASS_MODE, 0, 2, 1, strict=True)
-        # self.soft_reset()  # FIXME: this makes the ILA support value cleared
+        self.soft_reset() # make parameters take effect
+        # verify
+        time.sleep(0.5)
+        status = self._read_register(self.STAT_STATUS)
+        started = is_bit_set(status, 14)
+        return started

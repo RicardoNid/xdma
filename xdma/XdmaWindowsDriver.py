@@ -46,9 +46,9 @@ class XdmaWindowsDriver:
         self.all_device_files = self.h2c_devices + self.c2h_devices + self.dma_devices + [self.bypass_device, self.control_device, self.user_device]
         print(f"DMA configured as {self.dma_config}, containing following device files:")
         for device_file in self.all_device_files:
-            with device_file:
-                if device_file.exists():
-                    print(f"\t{device_file}")
+            if device_file.open():
+                print(f"\t{device_file}")
+                device_file.close()
 
     def show_info(self):
         # TODO: more status information
@@ -77,3 +77,6 @@ class XdmaWindowsDriver:
 
 if __name__ == '__main__':
     xdma_device = XdmaWindowsDriver(0)
+    xdma_device.show_info()
+    xdma_device.dma_devices[0].test_integrity()
+    xdma_device.dma_devices[0].test_bandwidth(8 << 20)

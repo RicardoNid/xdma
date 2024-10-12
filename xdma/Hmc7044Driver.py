@@ -17,6 +17,7 @@ from xdma.XdmaWindowsDeviceFile import *
 class Hmc7044Driver(SpiController):
     # registers
     PLL1_REFERENCE_PRIORITY = 0x0014
+    STATUS = 0x007D
 
     def __init__(self, read_device_file_path, write_device_file_path, base_address):
         super().__init__(read_device_file_path, write_device_file_path, base_address, 0x4_0000)
@@ -34,13 +35,20 @@ class Hmc7044Driver(SpiController):
         """
         展示寄存器默认值,通过对照这一方法输出的数值与手册中的默认值,我们可以验证read_byte方法的有效性
         """
-        status_byte = self.read_byte(0x007D)
+        status_byte = self.read_byte(self.STATUS)
         print(f"\nHMC7044 status:")
         print(f"\n\tPLL2 locked (or disabled), but unsynchronized: {is_bit_set(status_byte, 4)}")
         print(f"\tPLL1 and PLL2 are locked: {is_bit_set(status_byte, 3)}")
         print(f"\tSYSREF of the HMC7044 is valid and locked: {is_bit_set(status_byte, 2)}")
         print(f"\tThe HMC7044 has been synchronized with an external sync pulse or a sync request from the SPI: {not is_bit_set(status_byte, 1)}")
         print(f"\tPLL2 near locked: {is_bit_set(status_byte, 0)}")
+
+    def check_status(self):
+        """
+        检查HMC7044当前工作状态
+        """
+        status_byte = self.read_byte(0x007D)
+        assert is_bit_set(status_byte, 3) and is_bit_set(status_byte, 2), "HMC7044: bad status"
 
     def soft_reset(self):
         """
@@ -102,13 +110,6 @@ class Hmc7044Driver(SpiController):
         self.set_byte(base_addr + 2, divider // 256)
         self.set_byte(base_addr + 8, driver_config)
         # print(f"setting channel {channel_id}: {hex(mode_config)}, {hex(driver_config)}")
-
-    def check_status(self):
-        """
-        检查HMC7044当前工作状态
-        """
-        status_byte = self.read_byte(0x007D)
-        assert is_bit_set(status_byte, 3) and is_bit_set(status_byte, 2), "HMC7044: bad status"
 
     def init_for_das(self, use_external_clk: bool = False):
         # 1. soft reset
@@ -182,12 +183,15 @@ class Hmc7044Driver(SpiController):
         # 4. reseed request
         self.set_byte(0x0001, 0x88)
         time.sleep(1.0)
-        self.check_status()
+        status_byte = self.read_byte(self.STATUS)
+        pll_locked = is_bit_set(status_byte, 3)
+        sysref_locked = is_bit_set(status_byte, 2)
+        return pll_locked and sysref_locked
 
 
 if __name__ == '__main__':
     device_file = os.path.join(get_device_paths()[0], "user")
-    with Hmc7044Driver(device_file, device_file, 0x4_0000) as hmc7044:
-        hmc7044.show_info()
-        hmc7044.init_for_das()
-        hmc7044.show_info()
+    hmc7044 = Hmc7044Driver(device_file, device_file, 0x4_0000)
+    hmc7044.show_info()
+    hmc7044.init_for_das()
+    hmc7044.show_info()

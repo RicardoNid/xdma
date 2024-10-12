@@ -114,6 +114,8 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
     S2MM_DA_MSB = 0x4C
     S2MM_LENGTH = 0x58
 
+    #
+
     # TODO: get length maximum
 
     def __init__(self, read_device_file_path, write_device_file_path, base_address):
@@ -135,10 +137,12 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
         def get_status(bit: int):
             return self.read_register_field(base_address + 0x04, bit, 1) == 1
 
+        print(f"\trunning status:")
         print(
-            f"\treset: {get_control(2)}, running: {get_control(0)}, halted: {get_status(0)}, idle: {get_status(1)}, keyhole:{get_control(3)}, cyclic: {get_control(4)}")
+            f"\t\treset: {get_control(2)}\n\t\trunning: {get_control(0)}\n\t\thalted: {get_status(0)}\n\t\tidle: {get_status(1)}\n\t\tkeyhole:{get_control(3)}\n\t\tcyclic:{get_control(4)}")
         if self.is_sg_enabled():
-            print(f"\tsg_internal_error: {get_status(8)}, sg_slave_error: {get_status(9)}, sg_decode_error: {get_status(10)}")
+            print(f"\terror status:")
+            print(f"\t\tsg_internal_error: {get_status(8)}\n\t\tsg_slave_error: {get_status(9)}\n\t\tsg_decode_error: {get_status(10)}")
         else:
             print(f"\tdma_internal_error: {get_status(4)}, dma_slave_error: {get_status(5)}, dma_decode_error: {get_status(6)}")
 
@@ -157,6 +161,8 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
         print(f"\tusing Scatter Gather: {self.is_sg_enabled()}")
         self.show_s2mm_info()
         self.show_mm2s_info()
+
+        # TODO: running status
 
     def get_bd_start(self):
         return self.read_register_field(self.S2MM_CURDESC, 0, 32)
@@ -196,22 +202,25 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
         self.write_register_field(self.S2MM_DMACR, 2, 1, 1)
 
     def do_sg_s2mm_operation(self, bd_start, bd_end, cyclic: bool = False):
-        self.write_register_field(self.S2MM_DMACR, 0, 1, 0)
-        # 1. set starting descriptor
-        assert bd_start % 64 == 0, "bad alignment"
-        self.write_register_field(self.S2MM_CURDESC, 6, 26, bd_start // 64, strict=False)  # this register is RO when S2MM_DMACR.RS = 1
-        # print(f"start = {hex(self.read_register_field(self.S2MM_CURDESC, 0, 32))}")
-        # 2. set S2MM_DMACR.RS = 1
-        self.write_register_field(self.S2MM_DMACR, 0, 1, 1)
+        assert bd_start % DESCRIPTOR_GAP == 0 and bd_end % DESCRIPTOR_GAP == 0, "bad alignment"
         cyclic_value = 1 if cyclic else 0
+        self.write_register_field(self.S2MM_DMACR, 0, 1, 0)  # set RS = 0
+        # 1. set starting descriptor
+        # FIXME: writing to CURDESC may failed
+        self.write_register_field(self.S2MM_CURDESC, 6, 26, bd_start // DESCRIPTOR_GAP, strict=False)  # this register is RO when S2MM_DMACR.RS = 1
+        # 2. set S2MM_DMACR.RS = 1, set cyclic
+        self.write_register_field(self.S2MM_DMACR, 0, 1, 1)
         self.write_register_field(self.S2MM_DMACR, 4, 1, cyclic_value)
         # 3. enable interrupt if desired
         # 4. set tail descriptor, this operation will start data transfer
-        assert bd_end % 64 == 0, "bad alignment"
         if cyclic:
-            self.write_register_field(self.S2MM_TAILDESC, 6, 26, bd_end // 64 + 64)  # this register is RO when S2MM_DMACR.RS = 1
+            self.write_register_field(self.S2MM_TAILDESC, 6, 26, bd_end // DESCRIPTOR_GAP + DESCRIPTOR_GAP)  # this register is RO when S2MM_DMACR.RS = 1
         else:
-            self.write_register_field(self.S2MM_TAILDESC, 6, 26, bd_end // 64)  # this register is RO when S2MM_DMACR.RS = 1
+            self.write_register_field(self.S2MM_TAILDESC, 6, 26, bd_end // DESCRIPTOR_GAP)  # this register is RO when S2MM_DMACR.RS = 1
+        # even when the CURDESC value is wrong, as long as it satisfies the following condition, it may still work on cyclic BDs located on incremental address
+        success = bd_end >= self.get_bd_start() >= bd_start and bd_start % DESCRIPTOR_GAP == 0 and self.read_register_field(self.S2MM_DMACR, 0, 1) == 1
+        print(f"SG_S2MM启动完毕,bd_start = {hex(self.get_bd_start())}, bd_end = {hex(self.get_bd_end())}")
+        return success
 
     def do_direct_mm2s_operation(self, addr: int, length: int):
         pass
@@ -219,11 +228,14 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
     def do_sg_mm2s_operation(self, bd_start, bd_end, cyclic: bool = False):
         pass
 
+
 if __name__ == '__main__':
     user_device_path = os.path.join(get_device_paths()[0], 'user')
     axi_dma = AxiDmaDevice(user_device_path, user_device_path, 0x0014_0000)
-    axi_dma.show_info()
+    axi_dma.show_s2mm_info()
+    axi_dma.reset()
+    axi_dma.show_s2mm_info()
     print(f"bd_start = {hex(axi_dma.get_bd_start())}, bd_end = {hex(axi_dma.get_bd_end())}")
     axi_dma.do_sg_s2mm_operation(0x0000, 0x6000, cyclic=True)
     print(f"bd_start = {hex(axi_dma.get_bd_start())}, bd_end = {hex(axi_dma.get_bd_end())}")
-    axi_dma.show_info()
+    axi_dma.show_s2mm_info()

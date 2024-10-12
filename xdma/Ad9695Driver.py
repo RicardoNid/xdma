@@ -14,8 +14,8 @@ import random
 
 
 class Ad9695Driver(SpiController):
-
-    SCRATCH_PAD = 0x000A # a register for software debug
+    SCRATCH_PAD = 0x000A  # a register for software debug
+    PLL_STATUS = 0x056F
 
     def exists(self):
         original = self.read_byte(self.SCRATCH_PAD)
@@ -62,7 +62,7 @@ class Ad9695Driver(SpiController):
             self.set_byte(0x0040, 0x01)  # set pin function as GPIO for LMFC
 
     def check_status(self):
-        assert is_bit_set(self.read_byte(0x056F), 7), "AD9695: bad status"
+        assert is_bit_set(self.read_byte(self.PLL_STATUS), 7) and not is_bit_set(self.read_byte(self.PLL_STATUS), 3), "AD9695: bad status"
 
     def set_jesd204_test_pattern(self, test_mode: str):
         match test_mode:
@@ -121,7 +121,9 @@ class Ad9695Driver(SpiController):
         # self.set_byte(0x0572, 0x20) # invert syncinb
         # self.set_byte(0x0572, 0x80) # force CGS
         time.sleep(1.0)
-        self.check_status()
+        pll_lock = is_bit_set(self.read_byte(self.PLL_STATUS), 7)
+        pll_not_loss = not is_bit_set(self.read_byte(self.PLL_STATUS), 3)
+        return pll_lock and pll_not_loss
 
     def show_info(self):
         print(f"\nAD9695 info:")
@@ -130,12 +132,14 @@ class Ad9695Driver(SpiController):
         print(f"\tframes per multiframe(K): {get_bits(self.read_byte(0x058D), 0, 5) + 1}")
         print(f"\tlanes in use(L): {get_bits(self.read_byte(0x058B), 0, 4) + 1}")
         print(f"\tsubclass: {get_bits(self.read_byte(0x0590), 5, 3)}")
-        pll_stauts = self.read_byte(0x056F)
+        pll_stauts = self.read_byte(self.PLL_STATUS)
         print(f"\tPLL lock: {is_bit_set(pll_stauts, 7)}")
         print(f"\tLoss of lock: {is_bit_set(pll_stauts, 3)}")
 
 
 if __name__ == '__main__':
-    device_file = os.path.join(get_device_paths()[0], "c2h_0")
-    ad9695 = Ad9695Driver(device_file, base_address=0x1_0000_0000)
+    device_file = os.path.join(get_device_paths()[0], "user")
+    ad9695 = Ad9695Driver(device_file, device_file, 0x8_0000)
+    ad9695.show_info()
+    ad9695.init_for_das()
     ad9695.show_info()
