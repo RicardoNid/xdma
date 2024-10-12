@@ -199,9 +199,10 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
 
     # TODO: sg_enabled
     def do_s2mm_reset(self):
-        self.write_register_field(self.S2MM_DMACR, 2, 1, 1)
+        self.write_register_field(self.S2MM_DMACR, 2, 1, 1, strict=False)
 
     def do_sg_s2mm_operation(self, bd_start, bd_end, cyclic: bool = False):
+        self.do_s2mm_reset()
         assert bd_start % DESCRIPTOR_GAP == 0 and bd_end % DESCRIPTOR_GAP == 0, "bad alignment"
         cyclic_value = 1 if cyclic else 0
         self.write_register_field(self.S2MM_DMACR, 0, 1, 0)  # set RS = 0
@@ -232,10 +233,8 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
 if __name__ == '__main__':
     user_device_path = os.path.join(get_device_paths()[0], 'user')
     axi_dma = AxiDmaDevice(user_device_path, user_device_path, 0x0014_0000)
-    axi_dma.show_s2mm_info()
-    axi_dma.reset()
-    axi_dma.show_s2mm_info()
     print(f"bd_start = {hex(axi_dma.get_bd_start())}, bd_end = {hex(axi_dma.get_bd_end())}")
-    axi_dma.do_sg_s2mm_operation(0x0000, 0x6000, cyclic=True)
+    axi_dma.do_sg_s2mm_operation(0x0080, 0x7000, cyclic=True)
     print(f"bd_start = {hex(axi_dma.get_bd_start())}, bd_end = {hex(axi_dma.get_bd_end())}")
-    axi_dma.show_s2mm_info()
+    time.sleep(1.0)
+    print(f"bd_start = {hex(axi_dma.get_bd_start())}, bd_end = {hex(axi_dma.get_bd_end())}")
