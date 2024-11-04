@@ -6,11 +6,10 @@
 # @Software: PyCharm 
 # @Comment :
 
-import time
+import random
 
 from xdma.XdmaSpiController import SpiController
 from xdma.XdmaWindowsDeviceFile import *
-import random
 
 
 class Ad9695Driver(SpiController):

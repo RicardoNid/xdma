@@ -7,10 +7,6 @@
     <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xdma/Ad9695Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Ad9695Driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/AxiDmaDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/AxiDmaDriver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,6 +280,10 @@
       <workItem from="1728629135962" duration="72000" />
       <workItem from="1728629277995" duration="41000" />
       <workItem from="1728630035566" duration="7000" />
+      <workItem from="1728920603160" duration="1291000" />
+      <workItem from="1729143189009" duration="756000" />
+      <workItem from="1729353332893" duration="1546000" />
+      <workItem from="1729391546606" duration="2198000" />
     </task>
     <servers />
   </component>
