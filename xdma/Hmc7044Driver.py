@@ -67,13 +67,17 @@ class Hmc7044Driver(SpiController):
         function_value = 0
         match function:
             case "lock":
-                function_value = 13
+                function_value = 0b001101
             case "pll 1 clock status":
-                function_value = 20
+                function_value = 0b010100
             case "force 1":
-                function_value = 31
+                function_value = 0b011111
             case "force 0":
-                function_value = 32
+                function_value = 0b100000
+            case "clkin3 LOS":
+                function_value = 0b000010
+            case "clkin1 LOS":
+                function_value = 0b000100
 
         mode_value = 3  # CMOS mode + enable
         config = mode_value + (function_value << 2)
@@ -111,7 +115,12 @@ class Hmc7044Driver(SpiController):
         self.set_byte(base_addr + 8, driver_config)
         # print(f"setting channel {channel_id}: {hex(mode_config)}, {hex(driver_config)}")
 
-    def init_for_das(self, use_external_clk: bool = False):
+    def init_for_das(self, use_external_clk: bool = True):
+        print(f"使用外部时钟={use_external_clk}")
+        input_enable = 0x08 if use_external_clk else 0x02
+        input_priority = 0x87 if use_external_clk else 0x8d
+        input_setting = 0x1c if use_external_clk else 0x0c
+
         # 1. soft reset
         self.soft_reset()
         # 2. 配置各寄存器
@@ -119,7 +128,8 @@ class Hmc7044Driver(SpiController):
         # 设置输入/输出
         self.set_byte(0x0003, 0x2f)  # select VCO > 2.5G
         self.set_byte(0x0004, 0x7f)  # enable all output channels
-        self.set_byte(0x0005, 0x0a)  # enable CLKIN1,3
+        # self.set_byte(0x0005, 0x0a)  # enable CLKIN1,3. 1 for on-card 10M input, 3 for SSMC 10M input
+        self.set_byte(0x0005, input_enable)  # enable CLKIN3 only
         # 将other controls中的参数设为最佳
         self.set_byte(0x009F, 0x4d)
         self.set_byte(0x00A0, 0xdf)
@@ -133,7 +143,7 @@ class Hmc7044Driver(SpiController):
         self.set_byte(0x0036, 0x00)  # N2高四位
         self.set_byte(0x0032, 0x01)  # disable frequency doubler
         # 设置PLL1参数
-        self.set_byte(0x0014, 0x8d)  # 输入时钟优先级: 1 > 3 > 0 > 2
+        self.set_byte(0x0014, input_priority)  # 输入时钟优先级: 3 > 1 > 0 > 2
         self.set_byte(0x0028, 0x2f)  # 设置PLL1锁定检测,使用计数器,持续2^15周期
         # self.set_byte(0x001C, 0x01)  # CLK0预分频
         self.set_byte(0x001D, 0x01)  # CLK1预分频
@@ -144,8 +154,7 @@ class Hmc7044Driver(SpiController):
         self.set_byte(0x0022, 0x00)  # R2高八位
         self.set_byte(0x0026, 0x64)  # N1低八位=100
         self.set_byte(0x0027, 0x00)  # N2高八位
-        ref_clk_config = 0x3C if use_external_clk else 0x2C
-        self.set_byte(0x0029, ref_clk_config)  # 参考时钟源设置
+        self.set_byte(0x0029, input_setting)  # 参考时钟源设置
         # SYSREF control
         self.set_byte(0x005C, 0xe8)  # SYSREF setpoint 低八位
         self.set_byte(0x005D, 0x03)  # SYSREF setpoint 高四位
@@ -162,8 +171,8 @@ class Hmc7044Driver(SpiController):
         self.set_byte(0x0048, 0x00)
         self.set_byte(0x0049, 0x10)  # 设置功能为pulse generator request
         # 设置GPOx
-        self.set_gpo(3, "pll 1 clock status")
-        self.set_gpo(4, "lock")
+        self.set_gpo(3, "clkin1 LOS")
+        self.set_gpo(4, "clkin3 LOS")
         # 设置输出通道,包括分频系数,output buffers
         # self.set_output_channel(2, True, 300, "LVPECL", 100)  # -> debug, 10MHz
         # self.set_output_channel(3, True, 12 * 16, "LVPECL", 100)  # -> debug, 15.625MHz
@@ -186,6 +195,7 @@ class Hmc7044Driver(SpiController):
         status_byte = self.read_byte(self.STATUS)
         pll_locked = is_bit_set(status_byte, 3)
         sysref_locked = is_bit_set(status_byte, 2)
+        print(f"input setting: {hex(self.read_byte(0x0005))}, {hex(self.read_byte(0x0014))}, {hex(self.read_byte(0x0029))}")
         return pll_locked and sysref_locked
 
 
