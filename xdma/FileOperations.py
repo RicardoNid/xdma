@@ -8,6 +8,7 @@
 
 import ctypes
 import os.path
+import platform
 
 import numpy as np
 
@@ -27,28 +28,28 @@ FILE_CURRENT = 1
 ####################
 # C functions and its python interface
 ####################
+if platform.system() == "Windows":
+    CreateFile = ctypes.windll.kernel32.CreateFileA
+    ReadFile = ctypes.windll.kernel32.ReadFile
+    WriteFile = ctypes.windll.kernel32.WriteFile
+    SetFilePointer = ctypes.windll.kernel32.SetFilePointer
+    CloseHandle = ctypes.windll.kernel32.CloseHandle
 
-CreateFile = ctypes.windll.kernel32.CreateFileA
-ReadFile = ctypes.windll.kernel32.ReadFile
-WriteFile = ctypes.windll.kernel32.WriteFile
-SetFilePointer = ctypes.windll.kernel32.SetFilePointer
-CloseHandle = ctypes.windll.kernel32.CloseHandle
+    # specify argument types and return type for these functions
+    CreateFile.argtypes = [ctypes.c_char_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
+                           ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
+    CreateFile.restype = ctypes.c_void_p
 
-# specify argument types and return type for these functions
-CreateFile.argtypes = [ctypes.c_char_p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p,
-                       ctypes.c_uint32, ctypes.c_uint32, ctypes.c_void_p]
-CreateFile.restype = ctypes.c_void_p
+    ReadFile.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
+                         ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
+    ReadFile.restype = ctypes.c_int
 
-ReadFile.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
-                     ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
-ReadFile.restype = ctypes.c_int
+    WriteFile.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
+                          ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
+    WriteFile.restype = ctypes.c_int
 
-WriteFile.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32,
-                      ctypes.POINTER(ctypes.c_uint32), ctypes.c_void_p]
-WriteFile.restype = ctypes.c_int
-
-SetFilePointer.argtypes = [ctypes.c_void_p, ctypes.c_long, ctypes.POINTER(ctypes.c_long), ctypes.c_uint32]
-SetFilePointer.restype = ctypes.c_uint32
+    SetFilePointer.argtypes = [ctypes.c_void_p, ctypes.c_long, ctypes.POINTER(ctypes.c_long), ctypes.c_uint32]
+    SetFilePointer.restype = ctypes.c_uint32
 
 
 # TODO: implement this part by ctypes(rather than through .dll)

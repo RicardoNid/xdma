@@ -7,9 +7,6 @@
 # @Comment :
 from email.policy import strict
 
-from numpy.distutils.command.config import config
-from win32comext.propsys.propsys import PROPVARIANTType
-
 from xdma.XdmaWindowsDeviceFile import *
 
 
