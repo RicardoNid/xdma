@@ -5,10 +5,6 @@
 # @File    : Jesd204Device.py
 # @Software: PyCharm 
 # @Comment :
-from re import match
-
-from numpy.distutils.command.config import config
-from win32comext.propsys.propsys import PROPVARIANTType
 
 from xdma.XdmaWindowsDeviceFile import *
 
@@ -60,4 +56,3 @@ class Jesd204PhyDriver(XdmaWindowsDeviceFile):
         print(f"\tRX line rate: {rx_linerate / 1000_000} GHz")
         rx_refclk = self.read_register_field(self.RXREFCLK, 0, 32)
         print(f"\tRX refclk frequency: {rx_refclk / 1000} MHz")
-
