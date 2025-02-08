@@ -220,7 +220,7 @@ class AxiDmaDevice(XdmaWindowsDeviceFile):
             self.write_register_field(self.S2MM_TAILDESC, 6, 26, bd_end // DESCRIPTOR_GAP)  # this register is RO when S2MM_DMACR.RS = 1
         # even when the CURDESC value is wrong, as long as it satisfies the following condition, it may still work on cyclic BDs located on incremental address
         success = bd_end >= self.get_bd_start() >= bd_start and bd_start % DESCRIPTOR_GAP == 0 and self.read_register_field(self.S2MM_DMACR, 0, 1) == 1
-        print(f"SG_S2MM启动完毕,bd_start = {hex(self.get_bd_start())}, bd_end = {hex(self.get_bd_end())}")
+        print(f"SG_S2MM启动完毕")
         return success
 
     def do_direct_mm2s_operation(self, addr: int, length: int):

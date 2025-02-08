@@ -120,6 +120,9 @@ class Ad9695Driver(SpiController):
         # self.set_byte(0x0572, 0x20) # invert syncinb
         # self.set_byte(0x0572, 0x80) # force CGS
         time.sleep(1.0)
+        return self.init_done()
+
+    def init_done(self):
         pll_lock = is_bit_set(self.read_byte(self.PLL_STATUS), 7)
         pll_not_loss = not is_bit_set(self.read_byte(self.PLL_STATUS), 3)
         return pll_lock and pll_not_loss

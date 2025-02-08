@@ -192,10 +192,12 @@ class Hmc7044Driver(SpiController):
         # 4. reseed request
         self.set_byte(0x0001, 0x88)
         time.sleep(1.0)
+        return self.init_done()
+
+    def init_done(self):
         status_byte = self.read_byte(self.STATUS)
         pll_locked = is_bit_set(status_byte, 3)
         sysref_locked = is_bit_set(status_byte, 2)
-        print(f"input setting: {hex(self.read_byte(0x0005))}, {hex(self.read_byte(0x0014))}, {hex(self.read_byte(0x0029))}")
         return pll_locked and sysref_locked
 
 

@@ -161,9 +161,12 @@ class Jesd204CDriver(XdmaWindowsDeviceFile):
         # set link parameters
         config = Jesd204_8B10BConfig(K=32, F=1, scrambling=1)
         self.write_register32(config)
-        self.soft_reset() # make parameters take effect
+        self.soft_reset()  # make parameters take effect
         # verify
         time.sleep(0.5)
+        return self.init_done()
+
+    def init_done(self):
         status = self._read_register(self.STAT_STATUS)
         started = is_bit_set(status, 14)
         return started
