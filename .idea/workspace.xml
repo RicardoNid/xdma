@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/xdma/LinuxFileOperations.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xdma/WindowsFileOperations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/xdma.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/xdma.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/FileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/FileOperations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,33 +36,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.Ad9695Driver.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.AxiDmaDriver.executor&quot;: &quot;Run&quot;,
-    &quot;Python.Hmc7044Driver.executor&quot;: &quot;Run&quot;,
-    &quot;Python.XdmaTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.XdmaWindowsDeviceFile.executor&quot;: &quot;Run&quot;,
-    &quot;Python.XdmaWindowsDeviceFileNew.executor&quot;: &quot;Run&quot;,
-    &quot;Python.XdmaWindowsDriver (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.XdmaWindowsDriver.executor&quot;: &quot;Run&quot;,
-    &quot;Python.darft (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.darft.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/DAS/PycharmProjects/xdma/xdma&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;http.proxy&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.Ad9695Driver.executor": "Debug",
+    "Python.AxiDmaDriver.executor": "Run",
+    "Python.FileOperations.executor": "Run",
+    "Python.Hmc7044Driver.executor": "Run",
+    "Python.LinuxFileOperations.executor": "Run",
+    "Python.XdmaTest.executor": "Run",
+    "Python.XdmaWindowsDeviceFile.executor": "Run",
+    "Python.XdmaWindowsDeviceFileNew.executor": "Run",
+    "Python.XdmaWindowsDriver (1).executor": "Run",
+    "Python.XdmaWindowsDriver.executor": "Run",
+    "Python.darft (1).executor": "Run",
+    "Python.darft.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/home/ltr/PycharmProjects/xdma/xdma",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "http.proxy",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/xdma" />
       <recent name="C:\Users\DAS\PycharmProjects\xdma\xdma" />
       <recent name="C:\Users\DAS\PycharmProjects\xdma" />
     </key>
@@ -66,29 +74,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.XdmaWindowsDeviceFile">
-    <configuration name="Ad9695Driver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="xdma" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xdma" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/Ad9695Driver.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="AxiDmaDriver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="xdma" />
       <option name="ENV_FILES" value="" />
@@ -112,7 +97,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Hmc7044Driver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="FileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="xdma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,7 +111,53 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/Hmc7044Driver.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/FileOperations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LinuxFileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="xdma" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xdma" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/LinuxFileOperations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="WindowsFileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="xdma" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xdma" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/WindowsFileOperations.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -181,29 +212,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="XdmaWindowsDriver (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="xdma" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/xdma" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="xdma" />
       <option name="ENV_FILES" value="" />
@@ -229,11 +237,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.AxiDmaDriver" />
-        <item itemvalue="Python.Ad9695Driver" />
-        <item itemvalue="Python.Hmc7044Driver" />
         <item itemvalue="Python.XdmaWindowsDeviceFile" />
-        <item itemvalue="Python.XdmaWindowsDriver (1)" />
+        <item itemvalue="Python.FileOperations" />
+        <item itemvalue="Python.WindowsFileOperations" />
+        <item itemvalue="Python.LinuxFileOperations" />
+        <item itemvalue="Python.AxiDmaDriver" />
       </list>
     </recent_temporary>
   </component>
@@ -287,6 +295,12 @@
       <workItem from="1741399624159" duration="669000" />
       <workItem from="1741479827152" duration="600000" />
       <workItem from="1741568178559" duration="631000" />
+      <workItem from="1742019598070" duration="586000" />
+      <workItem from="1742020275908" duration="2080000" />
+      <workItem from="1742031889493" duration="174000" />
+      <workItem from="1742032093681" duration="95000" />
+      <workItem from="1742032331309" duration="89000" />
+      <workItem from="1742088688996" duration="3131000" />
     </task>
     <servers />
   </component>
@@ -305,15 +319,17 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/xdma$darft.coverage" NAME="darft Coverage Results" MODIFIED="1728324547153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1742022269298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$AxiDmaDriver.coverage" NAME="AxiDmaDriver Coverage Results" MODIFIED="1728629280342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
-    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver.coverage" NAME="XdmaWindowsDriver Coverage Results" MODIFIED="1728267230310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/xdma$XdmaTest.coverage" NAME="XdmaTest Coverage Results" MODIFIED="1727776189365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFileNew.coverage" NAME="XdmaWindowsDeviceFileNew Coverage Results" MODIFIED="1728258633298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1728472938387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
-    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1728487327380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
-    <SUITE FILE_PATH="coverage/xdma$darft__1_.coverage" NAME="darft (1) Coverage Results" MODIFIED="1728349222499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
-    <SUITE FILE_PATH="coverage/xdma$Ad9695Driver.coverage" NAME="Ad9695Driver Coverage Results" MODIFIED="1728629178760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver__1_.coverage" NAME="XdmaWindowsDriver (1) Coverage Results" MODIFIED="1728467350652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$Ad9695Driver.coverage" NAME="Ad9695Driver Coverage Results" MODIFIED="1728629178760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$darft__1_.coverage" NAME="darft (1) Coverage Results" MODIFIED="1728349222499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFileNew.coverage" NAME="XdmaWindowsDeviceFileNew Coverage Results" MODIFIED="1728258633298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1728487327380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$darft.coverage" NAME="darft Coverage Results" MODIFIED="1728324547153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/xdma$LinuxFileOperations.coverage" NAME="LinuxFileOperations Coverage Results" MODIFIED="1742089837418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver.coverage" NAME="XdmaWindowsDriver Coverage Results" MODIFIED="1728267230310" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/xdma$FileOperations.coverage" NAME="FileOperations Coverage Results" MODIFIED="1742091812415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$XdmaTest.coverage" NAME="XdmaTest Coverage Results" MODIFIED="1727776189365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

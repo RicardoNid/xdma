@@ -10,6 +10,9 @@ import threading
 from threading import Thread
 import time
 
+import os
+import numpy as np
+
 from xdma.FileOperations import *
 from xdma.Register32 import Register32
 
@@ -19,7 +22,8 @@ from xdma.Register32 import Register32
 ####################
 
 class XdmaWindowsDeviceFile:
-    def __init__(self, read_device_file_path: str = None, write_device_file_path: str = None, base_address: int = 0, capacity: int = 0x1_0000_0000):
+    def __init__(self, read_device_file_path: str = None, write_device_file_path: str = None, base_address: int = 0,
+                 capacity: int = 0x1_0000_0000):
         """
         There are four possible scenarios:
 
@@ -32,8 +36,8 @@ class XdmaWindowsDeviceFile:
 
         self.read_path = read_device_file_path
         self.write_path = write_device_file_path
-        self.read_handle = INVALID_HANDLE_VALUE
-        self.write_handle = INVALID_HANDLE_VALUE
+        self.read_handle = INVALID_HANDLE_VALUE  # file descriptor for reading
+        self.write_handle = INVALID_HANDLE_VALUE  # file descriptor for writing
         self.base_address = base_address
         self.max_address = self.base_address + capacity
 
@@ -77,10 +81,10 @@ class XdmaWindowsDeviceFile:
 
     def close(self):
         if self.read_handle != INVALID_HANDLE_VALUE:
-            CloseHandle(self.read_handle)
+            close_handle(self.read_handle)
             self.read_handle = INVALID_HANDLE_VALUE
         if self.write_handle != INVALID_HANDLE_VALUE and self.read_path != self.write_path:
-            CloseHandle(self.write_handle)
+            close_handle(self.write_handle)
             self.write_handle = INVALID_HANDLE_VALUE
 
     def seek(self, handle: int, addr: int):
@@ -207,14 +211,16 @@ class XdmaWindowsDeviceFile:
             device_thread_handle.start()
             device_thread_handle.join()
             time_elapsed = time.time() - start
-            print(f"carrier to host bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
+            print(
+                f"carrier to host bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
         if self.write_exists():
             device_thread_handle: Thread = threading.Thread(target=self.to_device_thread, args=(source, block_count))
             start = time.time()
             device_thread_handle.start()
             device_thread_handle.join()
             time_elapsed = time.time() - start
-            print(f"host to carrier bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
+            print(
+                f"host to carrier bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
         # if self.read_exists() and self.write_exists() and self.read_path != self.write_path:
         #     to_device_thread_handle = threading.Thread(target=self.to_device_thread, args=(source, block_count))
         #     from_device_thread_handle = threading.Thread(target=self.from_device_thread, args=(target, block_count))
@@ -235,18 +241,21 @@ class XdmaWindowsDeviceFile:
 
 if __name__ == '__main__':
     device_path = get_device_paths()[0]
-    c2h_0_path = os.path.join(device_path, f"c2h_0")
-    h2c_0_path = os.path.join(device_path, f"h2c_0")
 
-    # bidirectional with two files FIXME: bad read?
+    c2h_0_path = os.path.join( f"{device_path}_c2h_0")
+    h2c_0_path = os.path.join( f"{device_path}_h2c_0")
+    print(c2h_0_path)
+    print(h2c_0_path)
+
+    # # bidirectional with two files FIXME: bad read?
     dma = XdmaWindowsDeviceFile(c2h_0_path, h2c_0_path, 0, 0x8000_0000)
     dma.test_integrity()
-    dma.test_bandwidth(8 << 20)
-    dma.test_bandwidth(1 << 20)
-
-    # unidirectional
-
-    # user_path = os.path.join(device_path, f"user")
-    # with XdmaWindowsDeviceFile(user_path, user_path, 0, 0x4_0000) as user:
-    #     user.test_integrity()
-    #     user.test_bandwidth(1 << 10)
+    # dma.test_bandwidth(8 << 20)
+    # dma.test_bandwidth(1 << 20)
+    #
+    # # unidirectional
+    #
+    # # user_path = os.path.join(device_path, f"user")
+    # # with XdmaWindowsDeviceFile(user_path, user_path, 0, 0x4_0000) as user:
+    # #     user.test_integrity()
+    # #     user.test_bandwidth(1 << 10)
