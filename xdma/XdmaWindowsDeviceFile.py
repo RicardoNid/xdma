@@ -14,6 +14,7 @@ from threading import Thread
 from xdma.FileOperations import *
 from xdma.Register32 import Register32
 
+FILE_SEPERATOR = "_" if platform.system() == "Linux" else "/"
 
 ####################
 # Device file abstraction
@@ -299,8 +300,11 @@ def read_from_device(device, address, access_width):
 
     # 获取页面大小
     pgsz = os.sysconf('SC_PAGE_SIZE')
+    # pgsz = 0x1_0000_0000
     offset = address % pgsz
     target_aligned = address & ~(pgsz - 1)
+
+    print(f"offset = {hex(offset)}")
 
     # 内存映射
     map_size = offset + 4
@@ -332,6 +336,7 @@ def write_to_device(device, address, data, access_width):
 
     # 获取页面大小
     pgsz = os.sysconf('SC_PAGE_SIZE')
+    # pgsz = 0x1_0000_0000
     offset = address % pgsz
     target_aligned = address & ~(pgsz - 1)
 
@@ -377,7 +382,9 @@ if __name__ == '__main__':
     # assert user._read_register(rwTest) == data
     # print(hex(user._read_register(0x18)))
 
-    HMC7044_BASE_ADDRESS = 0x0004_0000
-    REG_ADDRESS = 0x009F
-    write_to_device(user_path, HMC7044_BASE_ADDRESS + REG_ADDRESS, 0x4d, 'b')
-    print(hex(read_from_device(user_path, HMC7044_BASE_ADDRESS + REG_ADDRESS, 'b')))
+    HMC7044_BASE_ADDRESS = 0x4_0000
+    REG_ADDRESS = 0x000C
+    ADDR = HMC7044_BASE_ADDRESS + REG_ADDRESS
+    # write_to_device(user_path, ADDR, 0x4d, 'w')
+    # print(hex(read_from_device(user_path, ADDR, 'w')))
+    print(hex(read_from_device(user_path, ADDR, 'w')))

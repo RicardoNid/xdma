@@ -13,7 +13,6 @@ import time
 from xdma.XdmaSpiController import SpiController
 from xdma.XdmaWindowsDeviceFile import *
 
-
 class Hmc7044Driver(SpiController):
     # registers
     PLL1_REFERENCE_PRIORITY = 0x0014
@@ -202,7 +201,7 @@ class Hmc7044Driver(SpiController):
 
 
 if __name__ == '__main__':
-    device_file = os.path.join(get_device_paths()[0], "user")
+    device_file = f"{get_device_paths()[0]}{FILE_SEPERATOR}user"
     hmc7044 = Hmc7044Driver(device_file, device_file, 0x4_0000)
     hmc7044.show_info()
     hmc7044.init_for_das()

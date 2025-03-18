@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/FileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/FileOperations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/LinuxFileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/LinuxFileOperations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/WindowsFileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/WindowsFileOperations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaSpiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaSpiController.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" afterDir="false" />
     </list>
@@ -73,7 +72,7 @@
       <recent name="C:\Users\DAS\PycharmProjects\xdma\xdma" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.XdmaWindowsDriver">
+  <component name="RunManager" selected="Python.Hmc7044Driver">
     <configuration name="FileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="xdma" />
       <option name="ENV_FILES" value="" />
@@ -97,7 +96,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="LinuxFileOperations" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="Hmc7044Driver" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="xdma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -111,7 +110,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/LinuxFileOperations.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/xdma/Hmc7044Driver.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -237,11 +236,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.XdmaWindowsDriver" />
+        <item itemvalue="Python.Hmc7044Driver" />
         <item itemvalue="Python.XdmaWindowsDeviceFile" />
+        <item itemvalue="Python.XdmaWindowsDriver" />
         <item itemvalue="Python.FileOperations" />
         <item itemvalue="Python.WindowsFileOperations" />
-        <item itemvalue="Python.LinuxFileOperations" />
       </list>
     </recent_temporary>
   </component>
@@ -301,7 +300,8 @@
       <workItem from="1742032093681" duration="95000" />
       <workItem from="1742032331309" duration="89000" />
       <workItem from="1742088688996" duration="11257000" />
-      <workItem from="1742267505749" duration="5231000" />
+      <workItem from="1742267505749" duration="5995000" />
+      <workItem from="1742278496200" duration="859000" />
     </task>
     <task id="LOCAL-00001" summary="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证">
       <option name="closed" value="true" />
@@ -333,14 +333,14 @@
     <option name="LAST_COMMIT_MESSAGE" value="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1742273325919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1742279111548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$AxiDmaDriver.coverage" NAME="AxiDmaDriver Coverage Results" MODIFIED="1728629280342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver__1_.coverage" NAME="XdmaWindowsDriver (1) Coverage Results" MODIFIED="1728467350652" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$Ad9695Driver.coverage" NAME="Ad9695Driver Coverage Results" MODIFIED="1728629178760" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$darft__1_.coverage" NAME="darft (1) Coverage Results" MODIFIED="1728349222499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFileNew.coverage" NAME="XdmaWindowsDeviceFileNew Coverage Results" MODIFIED="1728258633298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/xdma$darft.coverage" NAME="darft Coverage Results" MODIFIED="1728324547153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1728487327380" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1742279305876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$LinuxFileOperations.coverage" NAME="LinuxFileOperations Coverage Results" MODIFIED="1742089837418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver.coverage" NAME="XdmaWindowsDriver Coverage Results" MODIFIED="1742273356052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$FileOperations.coverage" NAME="FileOperations Coverage Results" MODIFIED="1742091812415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />

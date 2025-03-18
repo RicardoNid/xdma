@@ -10,8 +10,6 @@ import os.path
 
 from xdma.XdmaWindowsDeviceFile import *
 
-FILE_SEPERATOR = "_" if platform.system() == "Linux" else "/"
-
 
 class XdmaWindowsDriver:
     """"""
