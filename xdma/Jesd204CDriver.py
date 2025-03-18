@@ -7,7 +7,7 @@
 # @Comment :
 from email.policy import strict
 
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 
 class Jesd204_Config(Register32):
@@ -70,7 +70,7 @@ class Jesd204_SysrefConfig(Register32):
         self.delay = delay
 
 
-class Jesd204CDriver(XdmaWindowsDeviceFile):
+class Jesd204CDriver(XdmaDeviceFile):
     """
 
     TODO: currently, this driver is for 8B10B rx only

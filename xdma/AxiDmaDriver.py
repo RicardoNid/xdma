@@ -8,7 +8,7 @@
 
 from dataclasses import dataclass
 
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 DESCRIPTOR_SIZE = 32
 DESCRIPTOR_GAP = 64
@@ -85,7 +85,7 @@ class SgDescriptor:
         print(f"{self.transferred_bytes} bytes transferred, completed = {self.completed == 1}, error = {error}")
 
 
-class AxiDmaDevice(XdmaWindowsDeviceFile):
+class AxiDmaDevice(XdmaDeviceFile):
     # register list
     # M2SS
     MM2S_DMACR = 0x00

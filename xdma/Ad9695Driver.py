@@ -9,7 +9,7 @@
 import random
 
 from xdma.XdmaSpiController import SpiController
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 
 class Ad9695Driver(SpiController):

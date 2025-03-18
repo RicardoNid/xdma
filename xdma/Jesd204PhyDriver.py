@@ -6,7 +6,7 @@
 # @Software: PyCharm 
 # @Comment :
 
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 
 class Jesd204Phy_Pll(Register32):
@@ -21,7 +21,7 @@ class Jesd204Phy_Pll(Register32):
         self.tx_reset_in_progress = tx_reset_in_progress
 
 
-class Jesd204PhyDriver(XdmaWindowsDeviceFile):
+class Jesd204PhyDriver(XdmaDeviceFile):
     PLL_STATUS = 0x080
     RXLINERATE = 0x90
     RXREFCLK = 0x98

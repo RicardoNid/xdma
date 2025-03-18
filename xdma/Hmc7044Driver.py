@@ -11,7 +11,7 @@ import random
 import time
 
 from xdma.XdmaSpiController import SpiController
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 class Hmc7044Driver(SpiController):
     # registers

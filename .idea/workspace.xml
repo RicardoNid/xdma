@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/Hmc7044Driver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/XdmaSpiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaSpiController.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDeviceFile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaWindowsDriver.py" afterDir="false" />
-    </list>
+    <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="- 部分解决了register file读写问题" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -301,7 +295,7 @@
       <workItem from="1742032331309" duration="89000" />
       <workItem from="1742088688996" duration="11257000" />
       <workItem from="1742267505749" duration="5995000" />
-      <workItem from="1742278496200" duration="859000" />
+      <workItem from="1742278496200" duration="945000" />
     </task>
     <task id="LOCAL-00001" summary="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证">
       <option name="closed" value="true" />
@@ -311,7 +305,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742092157585</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- 部分解决了register file读写问题">
+      <option name="closed" value="true" />
+      <created>1742279432539</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1742279432539</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +332,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证" />
-    <option name="LAST_COMMIT_MESSAGE" value="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证" />
+    <MESSAGE value="- 部分解决了register file读写问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="- 部分解决了register file读写问题" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFile.coverage" NAME="XdmaWindowsDeviceFile Coverage Results" MODIFIED="1742279111548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
@@ -340,7 +343,7 @@
     <SUITE FILE_PATH="coverage/xdma$darft__1_.coverage" NAME="darft (1) Coverage Results" MODIFIED="1728349222499" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDeviceFileNew.coverage" NAME="XdmaWindowsDeviceFileNew Coverage Results" MODIFIED="1728258633298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/xdma$darft.coverage" NAME="darft Coverage Results" MODIFIED="1728324547153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1742279305876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
+    <SUITE FILE_PATH="coverage/xdma$Hmc7044Driver.coverage" NAME="Hmc7044Driver Coverage Results" MODIFIED="1742279380706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$LinuxFileOperations.coverage" NAME="LinuxFileOperations Coverage Results" MODIFIED="1742089837418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$XdmaWindowsDriver.coverage" NAME="XdmaWindowsDriver Coverage Results" MODIFIED="1742273356052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />
     <SUITE FILE_PATH="coverage/xdma$FileOperations.coverage" NAME="FileOperations Coverage Results" MODIFIED="1742091812415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/xdma" />

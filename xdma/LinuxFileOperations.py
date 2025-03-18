@@ -43,7 +43,7 @@ def read_from_handle(handle, buf: np.ndarray, nbytes: int) -> int:
     """将文件中的数据读入NumPy数组"""
     data = os.read(handle, nbytes)
     nread = len(data)
-    buf[:nread] = np.frombuffer(data, dtype=buf.dtype)
+    buf[:] = np.frombuffer(data, dtype=buf.dtype).reshape(buf.shape)
     if nread != nbytes:
         print(f"bad read {nread} / {nbytes}")
     return nread
@@ -51,7 +51,7 @@ def read_from_handle(handle, buf: np.ndarray, nbytes: int) -> int:
 
 def write_to_handle(handle, buf: np.ndarray, nbytes: int) -> int:
     """将NumPy数组中的数据写入文件"""
-    nwritten = os.write(handle, buf[:nbytes].tobytes())
+    nwritten = os.write(handle, buf.flatten().tobytes())
     if nwritten != nbytes:
         print(f"bad write {nwritten} / {nbytes}")
     return nwritten

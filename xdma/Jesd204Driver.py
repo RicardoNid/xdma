@@ -6,10 +6,10 @@
 # @Software: PyCharm 
 # @Comment :
 
-from xdma.XdmaWindowsDeviceFile import *
+from xdma.XdmaDeviceFile import *
 
 
-class Jesd204Driver(XdmaWindowsDeviceFile):
+class Jesd204Driver(XdmaDeviceFile):
     VERSION = 0x000
     RESET = 0x004
     ILA_SUPPORT = 0x008

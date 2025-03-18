@@ -16,11 +16,12 @@ from xdma.Register32 import Register32
 
 FILE_SEPERATOR = "_" if platform.system() == "Linux" else "/"
 
+
 ####################
 # Device file abstraction
 ####################
 
-class XdmaWindowsDeviceFile:
+class XdmaDeviceFile:
     def __init__(self, read_device_file_path: str = None, write_device_file_path: str = None, base_address: int = 0,
                  capacity: int = 0x1_0000_0000):
         """
@@ -130,15 +131,6 @@ class XdmaWindowsDeviceFile:
     # For AXI LITE, based on mmap
     ####################
     # Due to the existence of alignment mechanisms, it is not possible to directly read or write to a portion of a 32-bit register. Ultimately, the _read_register and _write_register methods must be used.
-    # def _read_register(self, addr: int) -> np.uint32:
-    #     reg = np.ones(1, dtype=np.uint32)
-    #     self.read(addr, reg)
-    #     return reg[0]
-
-    # def _write_register(self, addr: int, value: np.uint32):
-    #     bytes = np.array([value]).view('uint8')
-    #     self.write(addr, bytes)
-
     def _read_register(self, addr: int, access_width='w'):
         addr = addr + self.base_address
         if addr >= self.max_address:
@@ -192,7 +184,7 @@ class XdmaWindowsDeviceFile:
             if access_width == 'b':
                 mm.write_byte(value)
             else:
-                mm.write(value.to_bytes(4, byteorder='little', signed=False))
+                mm.write(int(value).to_bytes(4, byteorder='little', signed=False))
 
         # 关闭文件描述符
         os.close(fd)
@@ -283,7 +275,7 @@ class XdmaWindowsDeviceFile:
     # Factories
     ####################
     def remap(self, base_address: int, capacity: int):
-        return XdmaWindowsDeviceFile(self.read_path, self.write_path, base_address, capacity)
+        return XdmaDeviceFile(self.read_path, self.write_path, base_address, capacity)
 
 
 import os
@@ -369,22 +361,15 @@ if __name__ == '__main__':
     user_path = os.path.join(f"{device_path}_user")
     control_path = os.path.join(f"{device_path}_control")
 
-    # dma = XdmaWindowsDeviceFile(c2h_0_path, h2c_0_path, 0, 0x8000_0000)
-    # dma.test_integrity()
-    # dma.test_bandwidth(8 << 20)
-    # dma.test_bandwidth(1 << 20)
+    dma = XdmaDeviceFile(c2h_0_path, h2c_0_path, 0, 0x8000_0000)
+    dma.test_integrity()
+    dma.test_bandwidth(8 << 20)
+    dma.test_bandwidth(1 << 20)
 
-    # # unidirectional
-    # user = XdmaWindowsDeviceFile(user_path, user_path, 0, 0x4_0000)
-    # rwTest = 0x10
-    # data = 0xEF
-    # user._write_register(rwTest, data)
-    # assert user._read_register(rwTest) == data
-    # print(hex(user._read_register(0x18)))
+    # unidirectional
+    user = XdmaDeviceFile(user_path, user_path, 0, 0x4_0000)
+    rwTest = 0x10
+    data = 0xEF
+    user._write_register(rwTest, data)
+    assert user._read_register(rwTest) == data
 
-    HMC7044_BASE_ADDRESS = 0x4_0000
-    REG_ADDRESS = 0x000C
-    ADDR = HMC7044_BASE_ADDRESS + REG_ADDRESS
-    # write_to_device(user_path, ADDR, 0x4d, 'w')
-    # print(hex(read_from_device(user_path, ADDR, 'w')))
-    print(hex(read_from_device(user_path, ADDR, 'w')))
