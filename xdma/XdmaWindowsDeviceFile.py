@@ -5,13 +5,11 @@
 # @File    : xdma_windows_driver.py
 # @Software: PyCharm 
 # @Comment :
-
-import threading
-from threading import Thread
-import time
-
+import mmap
 import os
-import numpy as np
+import threading
+import time
+from threading import Thread
 
 from xdma.FileOperations import *
 from xdma.Register32 import Register32
@@ -70,7 +68,7 @@ class XdmaWindowsDeviceFile:
     def open(self):
         assert (self.read_path is not None) or (self.write_path is not None)
         if self.read_path == self.write_path:
-            self.read_handle = get_handle(self.read_path, GENERIC_READ | GENERIC_WRITE)
+            self.read_handle = get_handle(self.read_path, GENERIC_RW)
             self.write_handle = self.read_handle
         else:
             if self.read_path is not None:
@@ -128,18 +126,76 @@ class XdmaWindowsDeviceFile:
         self.read(-1, buffer)
 
     ####################
-    # For AXI LITE
+    # For AXI LITE, based on mmap
     ####################
-
     # Due to the existence of alignment mechanisms, it is not possible to directly read or write to a portion of a 32-bit register. Ultimately, the _read_register and _write_register methods must be used.
-    def _read_register(self, addr: int) -> np.uint32:
-        reg = np.ones(1, dtype=np.uint32)
-        self.read(addr, reg)
-        return reg[0]
+    # def _read_register(self, addr: int) -> np.uint32:
+    #     reg = np.ones(1, dtype=np.uint32)
+    #     self.read(addr, reg)
+    #     return reg[0]
 
-    def _write_register(self, addr: int, value: np.uint32):
-        bytes = np.array([value]).view('uint8')
-        self.write(addr, bytes)
+    # def _write_register(self, addr: int, value: np.uint32):
+    #     bytes = np.array([value]).view('uint8')
+    #     self.write(addr, bytes)
+
+    def _read_register(self, addr: int, access_width='w'):
+        addr = addr + self.base_address
+        if addr >= self.max_address:
+            raise IndexError(f'target address {hex(addr)} out of range')
+
+        # 打开字符设备
+        fd = os.open(self.read_path, os.O_RDWR | os.O_SYNC)
+        if fd == -1:
+            print(f"打开字符设备 {self.read_path} 失败: {os.strerror(os.errno)}")
+            return None
+        # 获取页面大小
+        pgsz = os.sysconf('SC_PAGE_SIZE')
+
+        offset = addr % pgsz
+        target_aligned = addr & ~(pgsz - 1)
+
+        # 内存映射
+        map_size = offset + 4
+        with mmap.mmap(fd, map_size, mmap.MAP_SHARED, mmap.PROT_READ | mmap.PROT_WRITE, offset=target_aligned) as mm:
+            mm.seek(offset)
+            if access_width == 'b':
+                result = mm.read_byte()
+            else:
+                result = int.from_bytes(mm.read(4), byteorder='little', signed=False)
+
+        # 关闭文件描述符
+        os.close(fd)
+        return result
+
+    def _write_register(self, addr: int, value: int, access_width='w'):
+        # print(f"local addr = {hex(addr)}")
+        addr = addr + self.base_address
+        if addr >= self.max_address:
+            raise IndexError(f'target address {hex(addr)} out of range')
+        # 打开字符设备
+        fd = os.open(self.write_path, os.O_RDWR | os.O_SYNC)
+        if fd == -1:
+            print(f"打开字符设备 {self.write_path} 失败: {os.strerror(os.errno)}")
+            return False
+
+        # 获取页面大小
+        pgsz = os.sysconf('SC_PAGE_SIZE')
+        offset = addr % pgsz
+        target_aligned = addr & ~(pgsz - 1)
+        # print(f"addr = {hex(addr)}, page size = {pgsz}, offset = {offset}, target_aligned = {target_aligned}")
+
+        # 内存映射
+        map_size = offset + 4
+        with mmap.mmap(fd, map_size, mmap.MAP_SHARED, mmap.PROT_READ | mmap.PROT_WRITE, offset=target_aligned) as mm:
+            mm.seek(offset)
+            if access_width == 'b':
+                mm.write_byte(value)
+            else:
+                mm.write(value.to_bytes(4, byteorder='little', signed=False))
+
+        # 关闭文件描述符
+        os.close(fd)
+        return True
 
     @staticmethod
     def _update_field(reg_value: np.uint32, start: int, length: int, field_value: np.uint32) -> np.uint32:
@@ -172,7 +228,7 @@ class XdmaWindowsDeviceFile:
         self._write_register(reg.address, reg.to_value())
 
     ####################
-    # Self-test
+    # Self-test for AXI MM
     ####################
 
     def test_integrity(self):
@@ -221,16 +277,6 @@ class XdmaWindowsDeviceFile:
             time_elapsed = time.time() - start
             print(
                 f"host to carrier bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
-        # if self.read_exists() and self.write_exists() and self.read_path != self.write_path:
-        #     to_device_thread_handle = threading.Thread(target=self.to_device_thread, args=(source, block_count))
-        #     from_device_thread_handle = threading.Thread(target=self.from_device_thread, args=(target, block_count))
-        #     start = time.time()
-        #     to_device_thread_handle.start()
-        #     from_device_thread_handle.start()
-        #     to_device_thread_handle.join()
-        #     from_device_thread_handle.join()
-        #     time_elapsed = time.time() - start
-        #     print(f"bidirectional bandwidth @ {block_size / 1024}KB block: {block_count * block_size / (1 << 20) / time_elapsed} MB/s")
 
     ####################
     # Factories
@@ -239,23 +285,99 @@ class XdmaWindowsDeviceFile:
         return XdmaWindowsDeviceFile(self.read_path, self.write_path, base_address, capacity)
 
 
+import os
+import sys
+import mmap
+
+
+def read_from_device(device, address, access_width):
+    # 打开字符设备
+    fd = os.open(device, os.O_RDWR | os.O_SYNC)
+    if fd == -1:
+        print(f"打开字符设备 {device} 失败: {os.strerror(os.errno)}")
+        return None
+
+    # 获取页面大小
+    pgsz = os.sysconf('SC_PAGE_SIZE')
+    offset = address % pgsz
+    target_aligned = address & ~(pgsz - 1)
+
+    # 内存映射
+    map_size = offset + 4
+    with mmap.mmap(fd, map_size, mmap.MAP_SHARED, mmap.PROT_READ | mmap.PROT_WRITE, offset=target_aligned) as mm:
+        mm.seek(offset)
+
+        # 根据访问宽度读取数据
+        if access_width == 'b':
+            result = mm.read_byte()
+        elif access_width == 'h':
+            result = int.from_bytes(mm.read(2), byteorder='little', signed=False)
+        elif access_width == 'w':
+            result = int.from_bytes(mm.read(4), byteorder='little', signed=False)
+        else:
+            print("不支持的访问宽度，默认使用32位 (word)")
+            result = int.from_bytes(mm.read(4), byteorder='little', signed=False)
+
+    # 关闭文件描述符
+    os.close(fd)
+    return result
+
+
+def write_to_device(device, address, data, access_width):
+    # 打开字符设备
+    fd = os.open(device, os.O_RDWR | os.O_SYNC)
+    if fd == -1:
+        print(f"打开字符设备 {device} 失败: {os.strerror(os.errno)}")
+        return False
+
+    # 获取页面大小
+    pgsz = os.sysconf('SC_PAGE_SIZE')
+    offset = address % pgsz
+    target_aligned = address & ~(pgsz - 1)
+
+    # 内存映射
+    map_size = offset + 4
+    with mmap.mmap(fd, map_size, mmap.MAP_SHARED, mmap.PROT_READ | mmap.PROT_WRITE, offset=target_aligned) as mm:
+        mm.seek(offset)
+
+        # 根据访问宽度写入数据
+        if access_width == 'b':
+            mm.write_byte(data)
+        elif access_width == 'h':
+            mm.write(data.to_bytes(2, byteorder='little', signed=False))
+        elif access_width == 'w':
+            mm.write(data.to_bytes(4, byteorder='little', signed=False))
+        else:
+            print("不支持的访问宽度，默认使用32位 (word)")
+            mm.write(data.to_bytes(4, byteorder='little', signed=False))
+
+    # 关闭文件描述符
+    os.close(fd)
+    return True
+
+
 if __name__ == '__main__':
     device_path = get_device_paths()[0]
 
-    c2h_0_path = os.path.join( f"{device_path}_c2h_0")
-    h2c_0_path = os.path.join( f"{device_path}_h2c_0")
-    print(c2h_0_path)
-    print(h2c_0_path)
+    c2h_0_path = os.path.join(f"{device_path}_c2h_0")
+    h2c_0_path = os.path.join(f"{device_path}_h2c_0")
+    user_path = os.path.join(f"{device_path}_user")
+    control_path = os.path.join(f"{device_path}_control")
 
-    # # bidirectional with two files FIXME: bad read?
-    dma = XdmaWindowsDeviceFile(c2h_0_path, h2c_0_path, 0, 0x8000_0000)
-    dma.test_integrity()
+    # dma = XdmaWindowsDeviceFile(c2h_0_path, h2c_0_path, 0, 0x8000_0000)
+    # dma.test_integrity()
     # dma.test_bandwidth(8 << 20)
     # dma.test_bandwidth(1 << 20)
-    #
+
     # # unidirectional
-    #
-    # # user_path = os.path.join(device_path, f"user")
-    # # with XdmaWindowsDeviceFile(user_path, user_path, 0, 0x4_0000) as user:
-    # #     user.test_integrity()
-    # #     user.test_bandwidth(1 << 10)
+    # user = XdmaWindowsDeviceFile(user_path, user_path, 0, 0x4_0000)
+    # rwTest = 0x10
+    # data = 0xEF
+    # user._write_register(rwTest, data)
+    # assert user._read_register(rwTest) == data
+    # print(hex(user._read_register(0x18)))
+
+    HMC7044_BASE_ADDRESS = 0x0004_0000
+    REG_ADDRESS = 0x009F
+    write_to_device(user_path, HMC7044_BASE_ADDRESS + REG_ADDRESS, 0x4d, 'b')
+    print(hex(read_from_device(user_path, HMC7044_BASE_ADDRESS + REG_ADDRESS, 'b')))

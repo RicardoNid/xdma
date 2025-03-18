@@ -10,6 +10,8 @@ import os.path
 
 from xdma.XdmaWindowsDeviceFile import *
 
+FILE_SEPERATOR = "_" if platform.system() == "Linux" else "/"
+
 
 class XdmaWindowsDriver:
     """"""
@@ -27,23 +29,28 @@ class XdmaWindowsDriver:
 
     def __init__(self, device_index: int):
         self.device_path = get_device_paths()[device_index]
+        self.channel_count = 1 if platform.system() == "Linux" else 4 # for windows, traversing up to 4 DMA channels
+        print(f"device path={self.device_path}")
         self.h2c_devices, self.c2h_devices, self.dma_devices = [], [], []
-        for i in range(4):  # up to 4 DMA channels
-            c2h_path = os.path.join(self.device_path, f"c2h_{i}")
-            h2c_path = os.path.join(self.device_path, f"h2c_{i}")
+        for i in range(self.channel_count):
+            c2h_path = f"{self.device_path}{FILE_SEPERATOR}c2h_{i}"
+            h2c_path = f"{self.device_path}{FILE_SEPERATOR}h2c_{i}"
             self.c2h_devices.append(XdmaWindowsDeviceFile(read_device_file_path=c2h_path))
             self.h2c_devices.append(XdmaWindowsDeviceFile(write_device_file_path=h2c_path))
-            self.dma_devices.append(XdmaWindowsDeviceFile(read_device_file_path=c2h_path, write_device_file_path=h2c_path))
-        self.bypass_path = os.path.join(self.device_path, f"bypass")
+            self.dma_devices.append(
+                XdmaWindowsDeviceFile(read_device_file_path=c2h_path, write_device_file_path=h2c_path))
+        self.bypass_path = f"{self.device_path}{FILE_SEPERATOR}bypass"
         self.bypass_device = XdmaWindowsDeviceFile(self.bypass_path, self.bypass_path)
-        self.control_path = os.path.join(self.device_path, f"control")
+        self.control_path = f"{self.device_path}{FILE_SEPERATOR}control"
         self.control_device = XdmaWindowsDeviceFile(self.control_path, self.control_path)
-        self.user_path = os.path.join(self.device_path, f"user")
+        self.user_path = f"{self.device_path}{FILE_SEPERATOR}user"
         self.user_device = XdmaWindowsDeviceFile(self.user_path, self.user_path)
 
         # list DMA subsystem information
         self.dma_config = "AXI4-Stream" if self.is_axi_st() else "AXI4 Memory Mapped"
-        self.all_device_files = self.h2c_devices + self.c2h_devices + self.dma_devices + [self.bypass_device, self.control_device, self.user_device]
+        self.all_device_files = self.h2c_devices + self.c2h_devices + self.dma_devices + [self.bypass_device,
+                                                                                          self.control_device,
+                                                                                          self.user_device]
         print(f"DMA configured as {self.dma_config}, containing following device files:")
         for device_file in self.all_device_files:
             if device_file.open():
@@ -67,7 +74,7 @@ class XdmaWindowsDriver:
                     # TODO: for more information of other blocks, see PG195, DMA/Bridge Subsystem for PCI Express
 
     def print_channel(self, base):
-        for i in range(4):
+        for i in range(self.channel_count):
             channel_base = base + i * 0x100
             identifier = self.control_device.read_register_field(channel_base + 0x00, 0, 32)
             if identifier & 0x1cf00000:  # for unused channel, identifier = 0x00000000

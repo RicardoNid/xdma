@@ -13,10 +13,11 @@ def get_device_paths():
 ####################
 
 GENERIC_READ = os.O_RDONLY
-# GENERIC_WRITE = os.O_WRONLY | os.O_CREAT
 GENERIC_WRITE = os.O_WRONLY  # do not create when device file doesn't exist
+GENERIC_RW = os.O_RDWR
+
 INVALID_HANDLE_VALUE = -1  # catch OSError and return this value for consistency
-FILE_BEGIN = 0
+FILE_BEGIN = os.SEEK_SET
 
 
 def get_handle(device_path, access):
@@ -28,8 +29,8 @@ def get_handle(device_path, access):
         return INVALID_HANDLE_VALUE
 
 
-def seek_handle(handle, offset, whence=FILE_BEGIN):
-    new_pos = os.lseek(handle, offset, whence)
+def seek_handle(handle, offset, how=FILE_BEGIN):
+    new_pos = os.lseek(handle, offset, how)
     return new_pos
 
 
@@ -39,37 +40,18 @@ def call_with_func(winfunc, *args):
 
 
 def read_from_handle(handle, buf: np.ndarray, nbytes: int) -> int:
-    """
-    从给定的文件描述符读取数据到NumPy数组。
-
-    :param handle: 文件描述符
-    :param buf: 目标NumPy数组
-    :param nbytes: 要读取的字节数
-    :return: 实际读取的字节数
-    """
-    # 使用buf.view将NumPy数组转换为字节视图
-    nread = os.read(handle, nbytes)
-    actual_nbytes = len(nread)
-    if actual_nbytes > 0:
-        # 将读取的数据复制到目标缓冲区
-        buf[:actual_nbytes] = np.frombuffer(nread, dtype=buf.dtype, count=actual_nbytes) # FIXME: buffer is smaller than requested size when test integrity
-    if actual_nbytes != nbytes:
-        print(f"bad read {actual_nbytes} / {nbytes}")
-    return actual_nbytes
+    """将文件中的数据读入NumPy数组"""
+    data = os.read(handle, nbytes)
+    nread = len(data)
+    buf[:nread] = np.frombuffer(data, dtype=buf.dtype)
+    if nread != nbytes:
+        print(f"bad read {nread} / {nbytes}")
+    return nread
 
 
 def write_to_handle(handle, buf: np.ndarray, nbytes: int) -> int:
-    """
-    将NumPy数组中的数据写入给定的文件描述符。
-
-    :param handle: 文件描述符
-    :param buf: 源NumPy数组
-    :param nbytes: 要写入的字节数
-    :return: 实际写入的字节数
-    """
-    # 确保只尝试写入请求的字节数量
-    data_to_write = buf[:nbytes].tobytes()
-    nwritten = os.write(handle, data_to_write)
+    """将NumPy数组中的数据写入文件"""
+    nwritten = os.write(handle, buf[:nbytes].tobytes())
     if nwritten != nbytes:
         print(f"bad write {nwritten} / {nbytes}")
     return nwritten

@@ -5,6 +5,7 @@
 # @File    : XdmaSpiController.py
 # @Software: PyCharm 
 # @Comment :
+import time
 from abc import abstractmethod
 
 from xdma.XdmaWindowsDeviceFile import *
@@ -13,17 +14,15 @@ from xdma.XdmaWindowsDeviceFile import *
 class SpiController(XdmaWindowsDeviceFile):
     def write_byte(self, addr: int, value: int):
         assert 0 <= value <= 0xFF, "bad register value"
-        byte = np.array([value], dtype=np.uint8)
-        self.write(addr, byte)
+        self._write_register(addr, value, 'b')
+
 
     def read_byte(self, addr: int):
-        reg = np.ones(1, dtype=np.uint8)
-        self.read(addr, reg)
-        return reg[0]
+        return self._read_register(addr, 'b')
 
     def set_byte(self, addr: int, value: int):
-        assert 0 <= value <= 0xFF, "bad register value"
         self.write_byte(addr, value)
+        time.sleep(0.5)
         value_after_write = self.read_byte(addr)
         if value_after_write != value:
             print(f"expected = {hex(value)}, actual = {hex(value_after_write)} @ {hex(addr)}")

@@ -33,6 +33,7 @@ platform_module = get_platform_specific_module()
 # 从所选模块中导入特定于平台的函数
 GENERIC_READ = platform_module.GENERIC_READ
 GENERIC_WRITE = platform_module.GENERIC_WRITE
+GENERIC_RW = platform_module.GENERIC_RW
 INVALID_HANDLE_VALUE = platform_module.INVALID_HANDLE_VALUE
 get_device_paths = platform_module.get_device_paths
 get_handle = platform_module.get_handle
