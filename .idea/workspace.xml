@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="- 部分解决了register file读写问题" />
+    <list default="true" id="3eb8d81a-c4f6-4f2b-a763-610c97e45bf8" name="Changes" comment="- 部分解决了register file读写问题">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/FileOperations.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/FileOperations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaDriver.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaDriver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xdma/XdmaSpiController.py" beforeDir="false" afterPath="$PROJECT_DIR$/xdma/XdmaSpiController.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -296,6 +301,8 @@
       <workItem from="1742088688996" duration="11257000" />
       <workItem from="1742267505749" duration="5995000" />
       <workItem from="1742278496200" duration="945000" />
+      <workItem from="1742343772753" duration="2513000" />
+      <workItem from="1742348892728" duration="614000" />
     </task>
     <task id="LOCAL-00001" summary="- 面向Linux系统重写了LinuxFileOperation.py,并通过FileOperations.py来统一处理&#10;- 在DeviceFile层次上进行了验证&#10;TODO:&#10;- 修正DeviceFile层次上的问题&#10;- 在Driver层次上进行验证">
       <option name="closed" value="true" />

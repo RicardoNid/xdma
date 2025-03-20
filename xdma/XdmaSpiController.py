@@ -5,9 +5,8 @@
 # @File    : XdmaSpiController.py
 # @Software: PyCharm 
 # @Comment :
-import time
-from abc import abstractmethod
 
+from abc import abstractmethod
 from xdma.XdmaDeviceFile import *
 
 

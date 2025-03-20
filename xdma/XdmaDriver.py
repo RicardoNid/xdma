@@ -6,8 +6,6 @@
 # @Software: PyCharm 
 # @Comment :
 
-import os.path
-
 from xdma.XdmaDeviceFile import *
 
 

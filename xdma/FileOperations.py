@@ -21,7 +21,7 @@ def get_platform_specific_module():
     system = platform.system()
     if system == 'Windows':
         return WindowsFileOperations
-    elif system in ['Linux', 'Darwin']:  # regard Darwin as Linux
+    elif system == 'Linux':
         return LinuxFileOperations
     else:
         raise NotImplementedError(f"Unsupported OS: {system}")
